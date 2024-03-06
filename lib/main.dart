@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:devest_ui/devest_ui.dart';
+import 'package:flutter_pokedex/presentation/theme/app_theme.dart';
+import 'package:flutter_pokedex/presentation/theme/icon_locations.dart';
+import 'package:flutter_svg/svg.dart';
 
 void main() {
   runApp(const Pokedex());
@@ -8,43 +11,13 @@ void main() {
 class Pokedex extends StatelessWidget {
   const Pokedex({super.key});
 
-  static final _lightTheme = DvTheme(
-    primary: Colors.blue,
-    secondary: Colors.blueGrey[200],
-    success: Colors.green,
-    warning: Colors.yellow,
-    error: Colors.red,
-    info: Colors.blue,
-    background: Colors.white,
-    surface100: Colors.white,
-    surface200: Colors.grey[100],
-    textPrimary: Colors.black,
-    textSecondary: const Color(0xFF808080),
-    divider: Colors.grey[300],
-    border: Colors.grey[300],
-  );
 
-  static final _darkTheme = DvTheme(
-    primary: Colors.blue,
-    secondary: Colors.blueGrey[700],
-    success: Colors.green,
-    warning: Colors.yellow,
-    error: Colors.red,
-    info: Colors.blue,
-    background: Colors.black,
-    surface100: Colors.grey[900],
-    surface200: Colors.grey[800],
-    textPrimary: Colors.white,
-    textSecondary: Colors.grey,
-    divider: Colors.grey[700],
-    border: Colors.grey[700],
-  );
 
   @override
   Widget build(BuildContext context) {
     return DevestUi(
-      lightTheme: _lightTheme,
-      darkTheme: _darkTheme,
+      lightTheme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       child: MaterialApp(
         title: 'Pokédex Code Challenge',
         theme: ThemeData(
@@ -63,15 +36,28 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: DvColor.background,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Pokédex Code Challenge'),
+        backgroundColor: Colors.transparent,
+        title: DvText.bodyM("Pokédex").styles(color: DvColor.textPrimary),
       ),
-      body: const Center(
+      body: Center(
           child: Column(
         children: [
-          ThemeSettings(),
-          Text('Lee el README para comenzar'),
+          SvgPicture.asset(
+            IconLocations.home,
+            width: 30,
+            height: 30,
+            colorFilter: ColorFilter.mode(DvColor.textSecondary, BlendMode.srcIn),
+          ),
+          SvgPicture.asset(
+            IconLocations.pokeball,
+            width: 30,
+            height: 30,
+            colorFilter: ColorFilter.mode(DvColor.textSecondary, BlendMode.srcIn),
+          ),
+          const ThemeSettings(),
+        
         ],
       )),
     );
