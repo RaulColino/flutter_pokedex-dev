@@ -37,6 +37,13 @@ class DvText extends Text {
         fontWeight: DvFontWeight.regular,
         letterSpacing: 0.5,
       );
+  
+  //Caption M
+  static DvText captionM(String data) => DvText._(data).styles(
+        fontSize: 12,
+        fontWeight: DvFontWeight.medium,
+        letterSpacing: 0.25,
+      );
 
   //Constructor
   DvText._(
