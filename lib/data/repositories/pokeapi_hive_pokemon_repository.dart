@@ -11,7 +11,7 @@ class PokemonRepository implements IPokemonRepository {
   final PokeapiDatasource pokemonDatasource = PokeapiDatasource();
   final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 
-  //get list of pokemon as a list of PokemonEntity
+  //getPokemonList
   @override
   Future<Result<List<PokemonEntity>, AppException>> getPokemonList() async {
     final Result<List<(String, String)>, AppException> result =
@@ -28,6 +28,7 @@ class PokemonRepository implements IPokemonRepository {
     return Ok(pokemonList);
   }
 
+  //getPokemonCaptured
   @override
   Future<Result<List<PokemonEntity>, AppException>> getPokemonCaptured() {
     return capturedDatasource.getCapturedPokemon();
