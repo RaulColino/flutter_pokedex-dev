@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/presentation/utils/routes/app_routes.dart';
 import 'package:flutter_pokedex/presentation/utils/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class PokedexApp extends StatelessWidget {
   const PokedexApp({super.key});

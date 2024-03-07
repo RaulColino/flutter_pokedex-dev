@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/presentation/screens/home/pokemon_list_page/pokemon_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeViewmodel extends Notifier<HomeState> {

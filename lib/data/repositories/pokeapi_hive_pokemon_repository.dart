@@ -6,7 +6,7 @@ import 'package:flutter_pokedex/domain/repository_interfaces/i_pokemon_repositor
 import 'package:oxidized/oxidized.dart';
 import 'package:http/http.dart' as http;
 
-class PokemonRepository implements IPokemonRepository {
+class PokeapiHivePokemonRepository implements IPokemonRepository {
   final PokeapiDatasource pokemonDatasource = PokeapiDatasource(httpClient: http.Client());
   final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 

@@ -4,7 +4,7 @@ import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:oxidized/oxidized.dart';
 
 class PokemonService {
-  final PokemonRepository _pokemonRepository;
+  final PokeapiHivePokemonRepository _pokemonRepository;
 
   PokemonService(this._pokemonRepository);
 
