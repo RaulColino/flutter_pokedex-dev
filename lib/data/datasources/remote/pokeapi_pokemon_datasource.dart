@@ -50,23 +50,23 @@ class PokeapiDatasource {
   }
 
   //Sprite from official-artwork
-  Future<Result<String, AppException>> getPokemonSpriteById(int id) async {
-    try {
-      final Response res = await http.get(Uri.parse(
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png'));
-      if (res.statusCode == 200) {
-        return Ok(res.body);
-      } else {
-        return Err(AppException(
-            type: AppExceptionType.api,
-            msg: 'Error getting pokemon sprite data: ${res.statusCode}'));
-      }
-    } on SocketException catch (e) {
-      return Err(AppException(type: AppExceptionType.network, msg: e.message)); //no internet error
-    } on Exception catch (e) {
-      return Err(AppException(type: AppExceptionType.api, msg: e.toString())); //unknown error
-    }
-  }
+  // Future<Result<String, AppException>> getPokemonSpriteUrlById(int id) async {
+  //   try {
+  //     final Response res = await http.get(Uri.parse(
+  //         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png'));
+  //     if (res.statusCode == 200) {
+  //       return Ok(res.body);
+  //     } else {
+  //       return Err(AppException(
+  //           type: AppExceptionType.api,
+  //           msg: 'Error getting pokemon sprite data: ${res.statusCode}'));
+  //     }
+  //   } on SocketException catch (e) {
+  //     return Err(AppException(type: AppExceptionType.network, msg: e.message)); //no internet error
+  //   } on Exception catch (e) {
+  //     return Err(AppException(type: AppExceptionType.api, msg: e.toString())); //unknown error
+  //   }
+  // }
 
   //getPokemonDetailsById
   // Future<Result<PokemonEntity, AppException>> getPokemonDetailsById(int id) async {
