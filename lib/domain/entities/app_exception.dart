@@ -1,15 +1,15 @@
 class AppException implements Exception {
   final AppExceptionType type;
-  final String? message;
+  final String? msg;
 
-  const AppException({required this.type, this.message});
+  const AppException({required this.type, this.msg});
 
-  const AppException.databaseError({String? message}) : this(type: AppExceptionType.database, message: message);
-  const AppException.networkError({String? message}) : this(type: AppExceptionType.network, message: message);
-  const AppException.apiError({String? message}) : this(type: AppExceptionType.api, message: message);
+  const AppException.databaseError({String? msg}) : this(type: AppExceptionType.database, msg: msg);
+  const AppException.networkError({String? msg}) : this(type: AppExceptionType.network, msg: msg);
+  const AppException.apiError({String? msg}) : this(type: AppExceptionType.api, msg: msg);
 
   @override
-  String toString() => message ?? 'AppException of type $type';
+  String toString() => msg ?? 'AppException of type $type';
 }
 
 enum AppExceptionType {database, network, api}
