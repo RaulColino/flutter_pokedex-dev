@@ -3,5 +3,6 @@ import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:oxidized/oxidized.dart';
 
 abstract interface class IPokemonRepository {
-  Future<Result<List<PokemonEntity>, AppException>> getAllPokemon();
+  Future<Result<List<PokemonEntity>, AppException>> getPokemonList();
+  Future<String> getPokemonDetailsByName(String name);
 }

@@ -7,9 +7,10 @@ import 'package:flutter_pokedex/data/datasources/local/hive_pokemon_captured_dat
 import 'package:flutter_pokedex/data/datasources/remote/pokeapi_pokemon_datasource.dart';
 import 'package:flutter_pokedex/domain/entities/app_exception.dart';
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
+import 'package:flutter_pokedex/domain/repository_interfaces/i_pokemon_repository.dart';
 import 'package:oxidized/oxidized.dart';
 
-class PokemonRepository {
+class PokemonRepository implements IPokemonRepository {
   final PokeapiDatasource pokemonDatasource = PokeapiDatasource();
   final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 
@@ -29,6 +30,12 @@ class PokemonRepository {
     final List<PokemonEntity> pokemonList = await Future.wait(futureList);
     return Ok(pokemonList);
   }
+  
+  @override
+  Future<String> getPokemonDetailsByName(String name) {
+    // TODO: implement getPokemonDetailsByName
+    throw UnimplementedError();
+  }
 
 
   // Future<String> getPokemonDetailsByName(string name) async {
@@ -44,5 +51,4 @@ class PokemonRepository {
   // Future<String> getCaptured(String name) async {
   //   return await localDbDatasource.getCapturedPokemon();
   // }
-  
 }

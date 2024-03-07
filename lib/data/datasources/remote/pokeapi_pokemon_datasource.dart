@@ -10,7 +10,7 @@ import 'package:oxidized/oxidized.dart';
 
 class PokeapiDatasource {
   //getPokemonList returns a list of record with name and url
-  Future<Result<List<(String, String)>, AppException>> getPokemonList() async {
+  Future<Result<List<(String name, String url)>, AppException>> getPokemonList() async {
     try {
       final Response res =
           await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'));
