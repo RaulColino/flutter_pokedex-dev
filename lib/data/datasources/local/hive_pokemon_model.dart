@@ -40,7 +40,6 @@ class HivePokemonModel extends Equatable {
     };
   }
 
-  //to entity
   PokemonEntity toEntity() {
     return PokemonEntity(
       id: id,
@@ -52,7 +51,6 @@ class HivePokemonModel extends Equatable {
     );
   }
 
-  //from entity
   factory HivePokemonModel.fromEntity(PokemonEntity pokemon) {
     return HivePokemonModel(
       id: pokemon.id,

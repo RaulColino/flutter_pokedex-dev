@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_pokedex/data/models/pokeapi/pokeapi_pokemon_model.dart';
+import 'package:flutter_pokedex/data/datasources/remote/pokeapi_pokemon_model.dart';
 import 'package:flutter_pokedex/domain/entities/app_exception.dart';
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:http/http.dart' as http;
@@ -9,15 +9,16 @@ import 'package:http/http.dart';
 import 'package:oxidized/oxidized.dart';
 
 class PokeapiDatasource {
-  //getPokemonList
-  Future<Result<List<PokemonEntity>, AppException>> getPokemonList() async {
+  //getPokemonList returns a list of record with name and url
+  Future<Result<List<(String, String)>, AppException>> getPokemonList() async {
     try {
       final Response res =
           await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'));
       if (res.statusCode == 200) {
         final List<dynamic> list = jsonDecode(res.body)['results'];
-        final List<PokemonEntity> pokemonList =
-            list.map((pokemon) => PokeapiPokemonModel.fromJson(pokemon)).toList();
+        final List<(String, String)> pokemonList = list
+            .map((e) => (e['name'] as String, e['url'] as String))
+            .toList();
         return Ok(pokemonList);
       } else {
         return Err(AppException(

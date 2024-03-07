@@ -9,8 +9,8 @@ import 'package:oxidized/oxidized.dart';
 class HivePokemonCapturedDatasource {
   static const _box = "pokemon_captured";
 
-  //Save a pokemon captured as a serialized json string
-  Future<Result<void, AppException>> savePokemonCaptured(PokemonEntity pokemon) async {
+  //Save a captured pokemon  as a serialized json string
+  Future<Result<void, AppException>> saveCapturedPokemon(PokemonEntity pokemon) async {
     try {
       final box = await Hive.openBox(_box);
       box.put(pokemon.id, jsonEncode(HivePokemonModel.fromEntity(pokemon).toJson()));
@@ -21,33 +21,16 @@ class HivePokemonCapturedDatasource {
     }
   }
 
-
-  // Future<Result<void, AppException>> saveCourses(List<Course> courses) async {
-  //   try {
-  //     final coursesBox = await Hive.openBox('coursesBox');
-  //     coursesBox.put(
-  //       COURSES,
-  //       jsonEncode(courses.map((course) {
-  //         final jsonCourse = course.toJson();
-  //         print("HiveCourseLocalDatasource:::::::::::::::::: $jsonCourse");
-  //         return jsonCourse;
-  //       }).toList()),
-  //     );
-  //     return Ok(null);
-  //   } catch (e) {
-  //     print("Error: HiveCourseLocalDatasource: save(): $e");
-  //     return Err(AppException(type: AppExceptionType.database));
-  //   }
-  // }
-
   //Get all captured pokemon
-  Future<List<PokemonEntity>> getCapturedPokemon() async {
-    final box = await Hive.openBox(_box);
-    final List<PokemonEntity> capturedPokemon = [];
-    for (var i = 0; i < box.length; i++) {
-      final pokemon = jsonDecode(box.getAt(i).toString());
-      capturedPokemon.add(HivePokemonModel.fromJson(pokemon));
+  Future<Result<List<PokemonEntity>, AppException>> getCapturedPokemon() async {
+    try {
+      final box = await Hive.openBox(_box);
+      final List<PokemonEntity> capturedPokemon =
+          box.values.map((json) => HivePokemonModel.fromJson(jsonDecode(json)).toEntity()).toList();
+      return Ok(capturedPokemon);
+    } catch (e) {
+      // print("Error: HivePokemonCapturedDatasource: getCapturedPokemon(): $e");
+      return Err(AppException(type: AppExceptionType.database, msg: e.toString()));
     }
-    return capturedPokemon;
   }
 }

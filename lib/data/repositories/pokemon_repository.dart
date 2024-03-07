@@ -1,14 +1,35 @@
 
 //join data and return all pokemon
 
-import 'package:flutter_pokedex/data/datasources/local_database/hive_pokemon_captured_datasource.dart';
-import 'package:flutter_pokedex/data/datasources/pokeapi/pokeapi_pokemon_datasource.dart';
+
+
+import 'package:flutter_pokedex/data/datasources/local/hive_pokemon_captured_datasource.dart';
+import 'package:flutter_pokedex/data/datasources/remote/pokeapi_pokemon_datasource.dart';
+import 'package:flutter_pokedex/domain/entities/app_exception.dart';
+import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
+import 'package:oxidized/oxidized.dart';
 
 class PokemonRepository {
-  final PokeapiDatasource apiDatasource;
-  final HivePokemonCapturedDatasource pokemonCapturedDatasource;
+  final PokeapiDatasource pokemonDatasource = PokeapiDatasource();
+  final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 
-  PokemonRepository({required this.pokeapiDatasource, required this.localDbDatasource});
+
+
+  //get list of pokemon as a list of PokemonEntity
+  Future<Result<List<PokemonEntity>, AppException>> getPokemonList() async {
+
+    final Result<List<(String, String)>, AppException> result = await pokemonDatasource.getPokemonList();
+    final List<(String, String)> list = result.unwrap();
+
+    final List<Future<PokemonEntity>> futureList = list.map((elem) async {
+      final Result<PokemonEntity, AppException> pokemon = await pokemonDatasource.getPokemonDetailsByName(elem.$1);
+      return pokemon.unwrap();
+    }).toList();
+
+    final List<PokemonEntity> pokemonList = await Future.wait(futureList);
+    return Ok(pokemonList);
+  }
+
 
   // Future<String> getPokemonDetailsByName(string name) async {
   //   return await pokeapiDatasource.getPokemonDetailsByName(name);
