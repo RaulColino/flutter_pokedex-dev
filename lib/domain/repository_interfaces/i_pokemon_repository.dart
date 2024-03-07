@@ -4,5 +4,6 @@ import 'package:oxidized/oxidized.dart';
 
 abstract interface class IPokemonRepository {
   Future<Result<List<PokemonEntity>, AppException>> getPokemonList();
-  Future<String> getPokemonDetailsByName(String name);
+  Future<Result<List<PokemonEntity>, AppException>> getPokemonCaptured();
+  //Future<String> getPokemonDetailsByName(String name);
 }

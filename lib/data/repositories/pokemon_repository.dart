@@ -1,7 +1,4 @@
-
 //join data and return all pokemon
-
-
 
 import 'package:flutter_pokedex/data/datasources/local/hive_pokemon_captured_datasource.dart';
 import 'package:flutter_pokedex/data/datasources/remote/pokeapi_pokemon_datasource.dart';
@@ -14,29 +11,30 @@ class PokemonRepository implements IPokemonRepository {
   final PokeapiDatasource pokemonDatasource = PokeapiDatasource();
   final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 
-
-
   //get list of pokemon as a list of PokemonEntity
+  @override
   Future<Result<List<PokemonEntity>, AppException>> getPokemonList() async {
-
-    final Result<List<(String, String)>, AppException> result = await pokemonDatasource.getPokemonList();
+    final Result<List<(String, String)>, AppException> result =
+        await pokemonDatasource.getPokemonList();
     final List<(String, String)> list = result.unwrap();
 
     final List<Future<PokemonEntity>> futureList = list.map((elem) async {
-      final Result<PokemonEntity, AppException> pokemon = await pokemonDatasource.getPokemonDetailsByName(elem.$1);
+      final Result<PokemonEntity, AppException> pokemon =
+          await pokemonDatasource.getPokemonDetailsByName(elem.$1);
       return pokemon.unwrap();
     }).toList();
 
     final List<PokemonEntity> pokemonList = await Future.wait(futureList);
     return Ok(pokemonList);
   }
-  
+
   @override
-  Future<String> getPokemonDetailsByName(String name) {
-    // TODO: implement getPokemonDetailsByName
-    throw UnimplementedError();
+  Future<Result<List<PokemonEntity>, AppException>> getPokemonCaptured() {
+    return capturedDatasource.getCapturedPokemon();
   }
 
+  // @override
+  // Future<String> getPokemonDetailsByName(String name) {}
 
   // Future<String> getPokemonDetailsByName(string name) async {
   //   return await pokeapiDatasource.getPokemonDetailsByName(name);
