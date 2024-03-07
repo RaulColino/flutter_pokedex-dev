@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/presentation/screens/home/pokemon_list_page/pokemon_list_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeViewModel extends Notifier<HomeState> {
+class HomeViewmodel extends Notifier<HomeState> {
   @override
   HomeState build() {
     return HomeState(
@@ -32,4 +32,4 @@ class HomeState {
   );
 }
 
-final homeViewModelProvider = NotifierProvider<HomeViewModel, HomeState>(HomeViewModel.new);
+final homeViewModelProvider = NotifierProvider<HomeViewmodel, HomeState>(HomeViewmodel.new);

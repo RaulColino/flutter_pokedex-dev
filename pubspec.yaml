@@ -15,10 +15,19 @@ dependencies:
 
   devest_ui:
     path: packages/devest_ui
+  #Needed to use SVGs
   flutter_svg: ^2.0.10+1
+  #Routing
   go_router: ^13.2.0
+  #Animations
   flutter_animate: ^4.5.0
+  # State management & dependency injection
   flutter_riverpod: ^2.4.10
+  #Makes equality easier
+  equatable: ^2.0.5
+  #Make http requests
+  http: ^1.2.1
+  oxidized: ^6.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:flutter_pokedex/domain/entities/pokemon_details.dart";
+import "package:flutter_pokedex/domain/entities/pokemon_entity.dart";
 import "package:flutter_pokedex/presentation/screens/home/home_screen.dart";
 import "package:flutter_pokedex/presentation/screens/pokemon_detail/pokemon_detail_screen.dart";
 import "package:flutter_pokedex/presentation/screens/splash/splash_screen.dart";
@@ -42,7 +42,7 @@ class AppRouter {
         name: "pokemon-detail",
         path: "/pokemon-detail",
         builder: (context, state) => PokemonDetailScreen(
-          pokemon: state.extra as PokemonDetails,
+          pokemon: state.extra as PokemonEntity,
         ),
       ),
     ],
