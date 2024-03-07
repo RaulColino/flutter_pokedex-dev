@@ -7,7 +7,7 @@ import 'package:oxidized/oxidized.dart';
 import 'package:http/http.dart' as http;
 
 class PokemonRepository implements IPokemonRepository {
-  final PokeapiDatasource pokemonDatasource = PokeapiDatasource(httpClient: http.Client());
+  final PokeapiDatasource pokemonDatasource = PokeapiDatasource();
   final HivePokemonCapturedDatasource capturedDatasource = HivePokemonCapturedDatasource();
 
   //getPokemonList
