@@ -9,11 +9,15 @@ import 'package:http/http.dart';
 import 'package:oxidized/oxidized.dart';
 
 class PokeapiDatasource {
+
+  final http.Client httpClient;
+  PokeapiDatasource({required this.httpClient});
+
   //getPokemonList returns a list of record with name and url
   Future<Result<List<(String name, String url)>, AppException>> getPokemonList() async {
     try {
       final Response res =
-          await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'));
+          await httpClient.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/?limit=151&offset=0'));
       if (res.statusCode == 200) {
         final List<dynamic> list = jsonDecode(res.body)['results'];
         final List<(String, String)> pokemonList = list
@@ -34,7 +38,7 @@ class PokeapiDatasource {
   //getPokemonDetailsByName
   Future<Result<PokemonEntity, AppException>> getPokemonDetailsByName(String name) async {
     try {
-      final Response res = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$name/'));
+      final Response res = await httpClient.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$name/'));
       if (res.statusCode == 200) {
         final model = PokeapiPokemonModel.fromJson(jsonDecode(res.body));
         return Ok(model);
