@@ -10,7 +10,7 @@ import 'package:oxidized/oxidized.dart';
 
 class PokeapiDatasource {
 
-  static final http.Client _httpClient = http.Client();
+  http.Client _httpClient = http.Client();
 
   //getPokemonList returns a list of record with name and url
   Future<Result<List<(String name, String url)>, AppException>> getPokemonList() async {
