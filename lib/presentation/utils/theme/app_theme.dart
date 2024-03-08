@@ -1,5 +1,6 @@
 import 'package:devest_ui/devest_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _defaultTheme = DvTheme(
     primary: const Color(0xFFCC0000), //Boston University Red
@@ -38,3 +39,5 @@ class AppTheme {
   static final steel = _defaultTheme.copyWith(primary: const Color(0xFF89A1B0));
   static final water = _defaultTheme.copyWith(primary: const Color(0xFF539AE2));
 }
+
+final appThemeProvider = Provider<DvTheme>((ref) => AppTheme.original);

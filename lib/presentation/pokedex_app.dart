@@ -32,7 +32,7 @@ class PokedexMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final DvTheme theme = ref.watch(AppTheme.dvThemeProvider);
+    final DvTheme theme = ref.watch(appThemeProvider);
 
     return DevestUi(
       lightTheme: theme,
