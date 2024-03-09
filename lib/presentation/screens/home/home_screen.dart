@@ -23,7 +23,10 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: DvColor.background,
       appBar: AppBar(
         title: DvText.bodyM("Pokédex").styles(color: DvColor.textPrimary),
-        backgroundColor: Colors.transparent,
+        backgroundColor: DvColor.background,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
       body: SafeArea(
         child: pages[selectedIndex],

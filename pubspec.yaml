@@ -27,12 +27,13 @@ dependencies:
   equatable: ^2.0.5
   #Make http requests
   http: ^1.2.1
-  #Functional error handling, options, and more
+  #Functional error handling, options, and more (I'll use fpdart in the future)
   oxidized: ^6.1.0
   #Local storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.2
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

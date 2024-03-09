@@ -2,16 +2,23 @@ import 'dart:async';
 
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:flutter_pokedex/domain/services/pokemon_service.dart';
-import 'package:flutter_pokedex/presentation/screens/home/pokemon_list_page/pokemon_list_page.dart';
 import 'package:flutter_pokedex/presentation/utils/di/service_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 
+//Viewmodel
 class PokemonListPageViewModel extends AsyncNotifier<List<PokemonEntity>> {
+  
   @override
   FutureOr<List<PokemonEntity>> build() {
-    return [];
+    return _fetchPokemon();
+  }
+
+  Future<List<PokemonEntity>> _fetchPokemon() async {
+    final PokemonService pokemonService = ref.read(pokemonServiceProvider);
+    final result = await pokemonService.getPokemonList();
+    return result.unwrap();
   }
 
   Future<void> getPokemon() async {
@@ -32,4 +39,9 @@ class PokemonListPageViewModel extends AsyncNotifier<List<PokemonEntity>> {
   }
 }
 
+
+//Provider
 final pokemonListPageViewModelProvider = AsyncNotifierProvider<PokemonListPageViewModel, List<PokemonEntity>>(PokemonListPageViewModel.new);
+
+
+

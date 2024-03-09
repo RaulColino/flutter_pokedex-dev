@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devest_ui/devest_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +18,8 @@ class PokemonCard extends ConsumerWidget {
   final double height;
   final String imageUrl;
   final String name;
-  final String id;
+  final int id;
   final void Function() onTap;
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,18 +33,29 @@ class PokemonCard extends ConsumerWidget {
               height: height,
               width: width,
               color: DvColor.secondary,
-              child: Image.network(
-                imageUrl,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: DvColor.textPrimary,
-                    ),
-                  );
-                },
+              child:
+                  // Image.network(
+                  //   imageUrl,
+                  //   loadingBuilder: (context, child, loadingProgress) {
+                  //     if (loadingProgress == null) {
+                  //       return child;
+                  //     }
+                  //     return Center(
+                  //       child: CircularProgressIndicator(
+                  //         color: DvColor.textPrimary,
+                  //       ),
+                  //     );
+                  //   },
+                  //   fit: BoxFit.cover,
+                  // ),
+                  CachedNetworkImage(
+                imageUrl: imageUrl,
+                progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                  child: CircularProgressIndicator(
+                    color: DvColor.textSecondary,
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 fit: BoxFit.cover,
               ),
             ),
@@ -55,7 +66,7 @@ class PokemonCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "title",
+                  "#$id $name",
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20,
