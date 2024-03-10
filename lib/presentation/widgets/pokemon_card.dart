@@ -24,7 +24,7 @@ class PokemonCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap(),
       child: Stack(
         children: [
           ClipRRect(
@@ -33,31 +33,33 @@ class PokemonCard extends ConsumerWidget {
               height: height,
               width: width,
               color: DvColor.secondary,
-              child:
-                  // Image.network(
-                  //   imageUrl,
-                  //   loadingBuilder: (context, child, loadingProgress) {
-                  //     if (loadingProgress == null) {
-                  //       return child;
-                  //     }
-                  //     return Center(
-                  //       child: CircularProgressIndicator(
-                  //         color: DvColor.textPrimary,
-                  //       ),
-                  //     );
-                  //   },
-                  //   fit: BoxFit.cover,
-                  // ),
-                  CachedNetworkImage(
-                imageUrl: imageUrl,
-                progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                  child: CircularProgressIndicator(
-                    color: DvColor.textSecondary,
+              child: Hero(
+                tag: imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                    child: CircularProgressIndicator(
+                      color: DvColor.textSecondary,
+                    ),
                   ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                fit: BoxFit.cover,
               ),
+              // Image.network(
+              //   imageUrl,
+              //   loadingBuilder: (context, child, loadingProgress) {
+              //     if (loadingProgress == null) {
+              //       return child;
+              //     }
+              //     return Center(
+              //       child: CircularProgressIndicator(
+              //         color: DvColor.textPrimary,
+              //       ),
+              //     );
+              //   },
+              //   fit: BoxFit.cover,
+              // ),
             ),
           ),
           Padding(

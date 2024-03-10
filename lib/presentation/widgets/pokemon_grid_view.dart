@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
+import 'package:flutter_pokedex/presentation/utils/routes/app_routes.dart';
 import 'package:flutter_pokedex/presentation/widgets/pokemon_card.dart';
+import 'package:go_router/go_router.dart';
 
 class PokemonGridView extends StatelessWidget {
   const PokemonGridView({
@@ -23,13 +25,16 @@ class PokemonGridView extends StatelessWidget {
       children: <Widget>[
         ...pokemonList
             .map(
-              (e) => PokemonCard(
+              (pokemon) => PokemonCard(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                imageUrl: e.imageUrl,
-                name: e.name,
-                id: e.id,
-                onTap: () => print("Clicked on ${e.name}"),
+                imageUrl: pokemon.imageUrl,
+                name: pokemon.name,
+                id: pokemon.id,
+                onTap: () => context.pushNamed(
+                  AppRoutes.pokemonDetailPage.name,
+                  extra: pokemon,
+                ),
               ),
             )
             .toList(),

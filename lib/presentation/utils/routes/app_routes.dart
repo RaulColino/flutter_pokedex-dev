@@ -15,16 +15,16 @@ enum AppRoutes {
 
 class AppRouter {
   static GoRouter routes = GoRouter(
-    initialLocation: "/",
+    initialLocation: "/splash",
     routes: [
       GoRoute(
         name: AppRoutes.splashScreen.name,
-        path: "/",
+        path: "/splash",
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         name: AppRoutes.homeScreen.name,
-        path: "/home",
+        path: "/",
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
@@ -39,7 +39,7 @@ class AppRouter {
         },
       ),
       GoRoute(
-        name: "pokemon-detail",
+        name: AppRoutes.pokemonDetailPage.name,
         path: "/pokemon-detail",
         builder: (context, state) => PokemonDetailScreen(
           pokemon: state.extra as PokemonEntity,
