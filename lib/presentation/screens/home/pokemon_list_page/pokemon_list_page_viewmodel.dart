@@ -21,22 +21,22 @@ class PokemonListPageViewModel extends AsyncNotifier<List<PokemonEntity>> {
     return result.unwrap();
   }
 
-  Future<void> getPokemon() async {
-    final PokemonService pokemonService = ref.read(pokemonServiceProvider);
-    state = const AsyncLoading();
-    pokemonService.getPokemonList().then((value) {
-      value.when(
-        ok: (pokemonList) {
-          state = AsyncData(pokemonList);
-        },
-        err: (error) {
-          state = AsyncError(error, StackTrace.current);
-        },
-      );
-    }).catchError((error) {
-      state = AsyncError(error, StackTrace.current);
-    });
-  }
+  // Future<void> getPokemon() async {
+  //   final PokemonService pokemonService = ref.read(pokemonServiceProvider);
+  //   state = const AsyncLoading();
+  //   pokemonService.getPokemonList().then((value) {
+  //     value.when(
+  //       ok: (pokemonList) {
+  //         state = AsyncData(pokemonList);
+  //       },
+  //       err: (error) {
+  //         state = AsyncError(error, StackTrace.current);
+  //       },
+  //     );
+  //   }).catchError((error) {
+  //     state = AsyncError(error, StackTrace.current);
+  //   });
+  // }
 }
 
 
