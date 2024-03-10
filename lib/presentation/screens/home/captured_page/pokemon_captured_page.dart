@@ -1,5 +1,7 @@
+import 'package:devest_ui/devest_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/presentation/screens/home/captured_page/pokemon_captured_viewmodel.dart';
+import 'package:flutter_pokedex/presentation/widgets/pokemon_grid_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PokemonCapturedPage extends ConsumerWidget {
@@ -58,14 +60,21 @@ class PokemonCapturedPage extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: viewmodel.filteredPokemonCaptured.length,
-              itemBuilder: (context, index) {
-                final pokemon = viewmodel.filteredPokemonCaptured[index];
-                return ListTile(
-                  title: Text(pokemon.name+" - id:"+pokemon.id.toString()),
-                  subtitle: Text(pokemon.types.join(", ")),
-                  trailing: null,
+           
+           child: viewmodel.filteredPokemonCaptured.when(
+              data: (pokemonList) {
+                return PokemonGridView(pokemonList: pokemonList);
+              },
+              loading: () {
+                return Center(
+                  child: CircularProgressIndicator(color: DvColor.primary),
+                );
+              },
+              error: (error, stackTrace) {
+                 return Center(
+                  child: DvText.bodyM("Error while trying to retrieve the data. Check your connection and try again.").styles(
+                    color: DvColor.error,
+                  ),
                 );
               },
             ),
