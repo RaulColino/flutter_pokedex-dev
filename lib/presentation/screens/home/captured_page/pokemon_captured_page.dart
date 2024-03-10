@@ -60,23 +60,15 @@ class PokemonCapturedPage extends ConsumerWidget {
             ),
           ),
           Expanded(
-           
-           child: viewmodel.filteredPokemonCaptured.when(
-              data: (pokemonList) {
-                return PokemonGridView(pokemonList: pokemonList);
-              },
-              loading: () {
-                return Center(
-                  child: CircularProgressIndicator(color: DvColor.primary),
-                );
-              },
-              error: (error, stackTrace) {
-                 return Center(
-                  child: DvText.bodyM("Error while trying to retrieve the data. Check your connection and try again.").styles(
-                    color: DvColor.error,
-                  ),
-                );
-              },
+            child: viewmodel.filteredPokemonCaptured.when(
+              data: (pokemonList) => pokemonList.isEmpty
+                  ? Center(child: DvText.bodyM("No pokemon captured..."))
+                  : PokemonGridView(pokemonList: pokemonList),
+              loading: () => Center(child: CircularProgressIndicator(color: DvColor.primary)),
+              error: (error, stackTrace) => Center(
+                  child: DvText.bodyM(
+                          "Error while trying to retrieve the data. Check your connection and try again.")
+                      .styles(color: DvColor.error)),
             ),
           ),
         ],

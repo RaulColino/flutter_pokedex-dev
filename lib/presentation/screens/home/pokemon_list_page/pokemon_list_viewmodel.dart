@@ -1,8 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:flutter_pokedex/domain/services/pokemon_service.dart';
 import 'package:flutter_pokedex/presentation/utils/di/app_services.dart';

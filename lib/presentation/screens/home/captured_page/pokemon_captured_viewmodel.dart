@@ -1,10 +1,7 @@
 import 'package:flutter_pokedex/presentation/utils/di/app_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:oxidized/oxidized.dart';
-
-
 
 //State
 class PokemonCapturedState {
@@ -35,12 +32,11 @@ class PokemonCapturedState {
   }
 }
 
-
 //Viewmodel
-class PokemonCapturedViewmodel extends Notifier<PokemonCapturedState> {
+class PokemonCapturedViewmodel extends AutoDisposeNotifier<PokemonCapturedState> {
   @override
   PokemonCapturedState build() {
-    final pokemonCaptured = ref.read(_pokemonCapturedProvider);
+    final pokemonCaptured = ref.watch(_pokemonCapturedPrivateProvider);
     return PokemonCapturedState(
       pokemonCaptured: pokemonCaptured,
       filteredPokemonCaptured: pokemonCaptured,
@@ -103,14 +99,20 @@ class PokemonCapturedViewmodel extends Notifier<PokemonCapturedState> {
   }
 }
 
-//PokemonCapturedProvider
-final _pokemonCapturedProvider = FutureProvider.autoDispose<List<PokemonEntity>>((ref) async {
+//PokemonCapturedPrivateProvider
+final _pokemonCapturedPrivateProvider = FutureProvider<List<PokemonEntity>>((ref) async {
   final pokemonService = ref.read(AppServices.pokemonServiceProvider);
   final res = pokemonService.getPokemonCaptured();
   return res.unwrap();
 });
 
+//Provider
+final pokemonCapturedViewmodelProvider =
+    AutoDisposeNotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(
+  PokemonCapturedViewmodel.new,
+);
 
+//Enums
 enum PokemonCapturedOrder { byId, alphabeticallyAsc, alphabeticallyDesc }
 
 enum PokemonCapturedFilter {
@@ -134,7 +136,3 @@ enum PokemonCapturedFilter {
   steel,
   water
 }
-
-//Provider
-final pokemonCapturedViewmodelProvider =
-    NotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(PokemonCapturedViewmodel.new);
