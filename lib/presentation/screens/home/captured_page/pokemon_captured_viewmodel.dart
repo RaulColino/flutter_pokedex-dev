@@ -4,7 +4,7 @@ import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:oxidized/oxidized.dart';
 
 //Viewmodel
-class PokemonCapturedViewmodel extends AutoDisposeNotifier<PokemonCapturedState> {
+class PokemonCapturedViewmodel extends Notifier<PokemonCapturedState> {
   @override
   PokemonCapturedState build() {
     final pokemonCaptured = ref.watch(_pokemonCapturedPrivateProvider);
@@ -72,7 +72,7 @@ class PokemonCapturedViewmodel extends AutoDisposeNotifier<PokemonCapturedState>
 
 //PokemonCapturedPrivateProvider
 final _pokemonCapturedPrivateProvider = FutureProvider<List<PokemonEntity>>((ref) async {
-  final pokemonService = ref.read(AppServices.pokemonServiceProvider);
+  final pokemonService = ref.watch(AppServices.pokemonServiceProvider);
   final res = pokemonService.getPokemonCaptured();
   return res.unwrap();
 });
@@ -133,6 +133,6 @@ enum PokemonCapturedFilter {
 
 //Provider
 final pokemonCapturedViewmodelProvider =
-    AutoDisposeNotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(
+    NotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(
   PokemonCapturedViewmodel.new,
 );
