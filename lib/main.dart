@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pokedex/presentation/pokedex_app.dart';
 
 void main() {
-  //We must call the following method because we use await (inside  PokedexApp.initializeApp()) before calling runApp()
+  //We must call the following method because we use await (inside PokedexApp.initializeApp()) before calling runApp()
   WidgetsFlutterBinding.ensureInitialized();
   //We must await for app initialization logic before running the app
   PokedexApp.initializeApp();

@@ -5,9 +5,13 @@
 //La lista de Pokémon capturados debe aparecer ordenada por su id.
 //Posibilidad de filtrar por tipo
 //y a ordenarlos alfabéticamente.
+import 'dart:async';
+
+import 'package:flutter_pokedex/presentation/utils/di/app_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
+import 'package:oxidized/oxidized.dart';
 
 enum PokemonCapturedOrder { byId, alphabeticallyAsc, alphabeticallyDesc }
 
@@ -35,13 +39,13 @@ enum PokemonCapturedFilter {
 
 //State
 class PokemonCapturedState {
-  final List<PokemonEntity> _pokemonCaptured;
-  final List<PokemonEntity> filteredPokemonCaptured;
+  final AutoDisposeFutureProvider<List<PokemonEntity>> _pokemonCaptured;
+  final AsyncValue<List<PokemonEntity>> filteredPokemonCaptured;
   final PokemonCapturedOrder order;
   final PokemonCapturedFilter filter;
 
   PokemonCapturedState({
-    required List<PokemonEntity> pokemonCaptured,
+    required AutoDisposeFutureProvider<List<PokemonEntity>> pokemonCaptured,
     required this.filteredPokemonCaptured,
     required this.order,
     required this.filter,
@@ -49,8 +53,8 @@ class PokemonCapturedState {
 
 
   PokemonCapturedState copyWith({
-    List<PokemonEntity>? pokemonCaptured,
-    List<PokemonEntity>? filteredPokemonCaptured,
+    AutoDisposeFutureProvider<List<PokemonEntity>>? pokemonCaptured,
+    AsyncValue<List<PokemonEntity>>? filteredPokemonCaptured,
     PokemonCapturedOrder? order,
     PokemonCapturedFilter? filter,
   }) {
@@ -63,107 +67,40 @@ class PokemonCapturedState {
   }
 }
 
+//PokemonCapturedProvider
+final _pokemonCapturedProvider = FutureProvider.autoDispose<List<PokemonEntity>>((ref) async {
+  final pokemonService = ref.read(AppServices.pokemonServiceProvider);
+  final res =  pokemonService.getPokemonCaptured();
+  return res.unwrap();
+});
+
 //Viewmodel
 class PokemonCapturedViewmodel extends Notifier<PokemonCapturedState> {
   @override
   PokemonCapturedState build() {
-    return PokemonCapturedState(
-      pokemonCaptured: <PokemonEntity>[
-        PokemonEntity(
-            id: 1,
-            name: "Zubat",
-            types: [PokemonType.bug, PokemonType.dragon],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${3}.png",
-            height: 10,
-            weight: 10),
-        PokemonEntity(
-            id: 12,
-            name: "Arbok",
-            types: [PokemonType.bug, PokemonType.dragon],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${23}.png",
-            height: 10,
-            weight: 10),
-        PokemonEntity(
-            id: 23,
-            name: "Ekans",
-            types: [PokemonType.electric, PokemonType.poison],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${43}.png",
-            height: 10,
-            weight: 10),
-      ],
-      filteredPokemonCaptured: <PokemonEntity>[
-        PokemonEntity(
-            id: 1,
-            name: "Zubat",
-            types: [PokemonType.bug, PokemonType.dragon],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${3}.png",
-            height: 10,
-            weight: 10),
-        PokemonEntity(
-            id: 12,
-            name: "Arbok",
-            types: [PokemonType.bug, PokemonType.dragon],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${23}.png",
-            height: 10,
-            weight: 10),
-        PokemonEntity(
-            id: 23,
-            name: "Ekans",
-            types: [PokemonType.electric, PokemonType.poison],
-            isCaptured: true,
-            imageUrl:
-                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${43}.png",
-            height: 10,
-            weight: 10),
-      ],
-      order: PokemonCapturedOrder.byId,
-      filter: PokemonCapturedFilter.all,
-    );
-
-    // final pokemonList = ref.read(pokemonListPageViewModelProvider);
-    // final res = pokemonList.when(
-    //   data: (pokemonList) {
-    //     return PokemonCapturedState(
-    //       pokemonCaptured: AsyncData(pokemonList.where((pokemon) => pokemon.isCaptured).toList()),
-    //       order: PokemonCapturedOrder.byId,
-    //       filter: PokemonCapturedFilter.all,
-    //     );
-    //   },
-    //   loading: () {
-    //     return PokemonCapturedState(
-    //       pokemonCaptured: const AsyncLoading(),
-    //       order: PokemonCapturedOrder.byId,
-    //       filter: PokemonCapturedFilter.all,
-    //     );
-    //   },
-    //   error: (error, stackTrace) {
-    //     return PokemonCapturedState(
-    //       pokemonCaptured: AsyncError(error, stackTrace),
-    //       order: PokemonCapturedOrder.byId,
-    //       filter: PokemonCapturedFilter.all,
-    //     );
-    //   },
-    // );
-    // return res;
+     final pokemonCaptured = ref.read(_pokemonCapturedProvider);
+      return PokemonCapturedState(
+        pokemonCaptured: _pokemonCapturedProvider,
+        filteredPokemonCaptured: pokemonCaptured,
+        order: PokemonCapturedOrder.byId,
+        filter: PokemonCapturedFilter.all,
+      );
+    }
   }
 
-  // void addPokemon(PokemonEntity pokemon) {
-  //   state = state.copyWith(pokemonCaptured: state.pokemonCaptured..add(pokemon));
+  // Future<List<PokemonEntity>> _retrieveCapturedPokemon() async {
+  //   final pokemonService = ref.read(pokemonServiceProvider);
+  //   final res =  pokemonService.getPokemonCaptured();
+  //   return res.unwrap();
   // }
 
-  // void removePokemon(PokemonEntity pokemon) {
-  //   state = state.copyWith(pokemonCaptured: state.pokemonCaptured..remove(pokemon));
-  // }
+  void addPokemon(PokemonEntity pokemon) {
+    //state = state.copyWith(pokemonCaptured: state._pokemonCaptured..add(pokemon));
+  }
+
+  void removePokemon(PokemonEntity pokemon) {
+    state = state.copyWith(pokemonCaptured: state._pokemonCaptured..remove(pokemon));
+  }
 
   void changeOrder(PokemonCapturedOrder order) {
     final filteredByOrder = _filterPokemonByOrder(state._pokemonCaptured, order);
