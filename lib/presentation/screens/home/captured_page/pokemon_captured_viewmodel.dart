@@ -3,35 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 import 'package:oxidized/oxidized.dart';
 
-//State
-class PokemonCapturedState {
-  final AsyncValue<List<PokemonEntity>> _pokemonCaptured;
-  final AsyncValue<List<PokemonEntity>> filteredPokemonCaptured;
-  final PokemonCapturedOrder order;
-  final PokemonCapturedFilter filter;
-
-  PokemonCapturedState({
-    required AsyncValue<List<PokemonEntity>> pokemonCaptured,
-    required this.filteredPokemonCaptured,
-    required this.order,
-    required this.filter,
-  }) : _pokemonCaptured = pokemonCaptured;
-
-  PokemonCapturedState copyWith({
-    AsyncValue<List<PokemonEntity>>? pokemonCaptured,
-    AsyncValue<List<PokemonEntity>>? filteredPokemonCaptured,
-    PokemonCapturedOrder? order,
-    PokemonCapturedFilter? filter,
-  }) {
-    return PokemonCapturedState(
-      pokemonCaptured: pokemonCaptured ?? _pokemonCaptured,
-      filteredPokemonCaptured: filteredPokemonCaptured ?? this.filteredPokemonCaptured,
-      order: order ?? this.order,
-      filter: filter ?? this.filter,
-    );
-  }
-}
-
 //Viewmodel
 class PokemonCapturedViewmodel extends AutoDisposeNotifier<PokemonCapturedState> {
   @override
@@ -106,11 +77,34 @@ final _pokemonCapturedPrivateProvider = FutureProvider<List<PokemonEntity>>((ref
   return res.unwrap();
 });
 
-//Provider
-final pokemonCapturedViewmodelProvider =
-    AutoDisposeNotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(
-  PokemonCapturedViewmodel.new,
-);
+//State
+class PokemonCapturedState {
+  final AsyncValue<List<PokemonEntity>> _pokemonCaptured;
+  final AsyncValue<List<PokemonEntity>> filteredPokemonCaptured;
+  final PokemonCapturedOrder order;
+  final PokemonCapturedFilter filter;
+
+  PokemonCapturedState({
+    required AsyncValue<List<PokemonEntity>> pokemonCaptured,
+    required this.filteredPokemonCaptured,
+    required this.order,
+    required this.filter,
+  }) : _pokemonCaptured = pokemonCaptured;
+
+  PokemonCapturedState copyWith({
+    AsyncValue<List<PokemonEntity>>? pokemonCaptured,
+    AsyncValue<List<PokemonEntity>>? filteredPokemonCaptured,
+    PokemonCapturedOrder? order,
+    PokemonCapturedFilter? filter,
+  }) {
+    return PokemonCapturedState(
+      pokemonCaptured: pokemonCaptured ?? _pokemonCaptured,
+      filteredPokemonCaptured: filteredPokemonCaptured ?? this.filteredPokemonCaptured,
+      order: order ?? this.order,
+      filter: filter ?? this.filter,
+    );
+  }
+}
 
 //Enums
 enum PokemonCapturedOrder { byId, alphabeticallyAsc, alphabeticallyDesc }
@@ -136,3 +130,9 @@ enum PokemonCapturedFilter {
   steel,
   water
 }
+
+//Provider
+final pokemonCapturedViewmodelProvider =
+    AutoDisposeNotifierProvider<PokemonCapturedViewmodel, PokemonCapturedState>(
+  PokemonCapturedViewmodel.new,
+);
