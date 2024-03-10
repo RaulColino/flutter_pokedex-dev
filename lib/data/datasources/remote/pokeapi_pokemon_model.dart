@@ -1,8 +1,7 @@
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
 
 class PokeapiPokemonModel extends PokemonEntity {
-
-  PokeapiPokemonModel({
+  const PokeapiPokemonModel({
     required int id,
     required String name,
     required int height,
@@ -15,14 +14,12 @@ class PokeapiPokemonModel extends PokemonEntity {
           height: height,
           weight: weight,
           imageUrl: imageUrl,
-          types: types.map((type) => type.type).toList(),
+          types: types,
         );
 
   factory PokeapiPokemonModel.fromJson(Map<String, dynamic> json) {
     final List<dynamic> types = json['types'];
-    final List<PokemonType> pokemonTypes = types
-        .map((type) => PokemonType.fromJson(type))
-        .toList();
+    final List<PokemonType> pokemonTypes = types.map((type) => PokemonType.values.firstWhere((enumValue) => enumValue.name == type['type']['name'])).toList();
 
     return PokeapiPokemonModel(
       id: json['id'],
@@ -31,18 +28,6 @@ class PokeapiPokemonModel extends PokemonEntity {
       weight: json['weight'],
       imageUrl: json['sprites']['other']['official-artwork']['front_default'],
       types: pokemonTypes,
-    );
-  }
-}
-
-class PokemonType {
-  final String type;
-
-  PokemonType({required this.type});
-
-  factory PokemonType.fromJson(Map<String, dynamic> json) {
-    return PokemonType(
-      type: json['type']['name'],
     );
   }
 }

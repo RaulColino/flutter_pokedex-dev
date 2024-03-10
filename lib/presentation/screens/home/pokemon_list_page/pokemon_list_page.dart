@@ -46,7 +46,7 @@ class PokemonListPage extends ConsumerWidget {
               },
               error: (error, stackTrace) {
                 return Center(
-                  child: DvText.captionM("Error while trying to retrieve the data. Check your connection and try again.").styles(
+                  child: DvText.bodyM("Error while trying to retrieve the data. Check your connection and try again.").styles(
                     color: DvColor.error,
                   ),
                 );

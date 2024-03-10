@@ -7,7 +7,7 @@ class HivePokemonModel extends Equatable {
   final String imageUrl;
   final int height;
   final int weight;
-  final List<String> types;
+  final List<PokemonType> types;
 
   const HivePokemonModel({
     required this.id,
@@ -25,7 +25,7 @@ class HivePokemonModel extends Equatable {
       imageUrl: json['imageUrl'],
       height: json['height'],
       weight: json['weight'],
-      types: List<String>.from(json['types']),
+      types: (json['types'] as List<dynamic>).map((t) => PokemonType.fromJson(t)).toList(),
     );
   }
 
@@ -36,7 +36,7 @@ class HivePokemonModel extends Equatable {
       'imageUrl': imageUrl,
       'height': height,
       'weight': weight,
-      'types': types,
+      'types': types.map((t) => t.toJson()).toList(),
     };
   }
 
