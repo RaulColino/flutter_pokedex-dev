@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:devest_ui/devest_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/presentation/widgets/cached_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PokemonCard extends ConsumerWidget {
@@ -23,8 +24,9 @@ class PokemonCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //precacheImage(CachedNetworkImageProvider(imageUrl), context);
     return GestureDetector(
-      onTap: () => onTap(),
+      onTap: onTap,
       child: Stack(
         children: [
           ClipRRect(
@@ -35,31 +37,22 @@ class PokemonCard extends ConsumerWidget {
               color: DvColor.secondary,
               child: Hero(
                 tag: imageUrl,
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                    child: CircularProgressIndicator(
-                      color: DvColor.textSecondary,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  fit: BoxFit.cover,
-                ),
+                child: CachedImage(imageUrl: imageUrl),
+                //     Image.network(
+                //   imageUrl,
+                //   loadingBuilder: (context, child, loadingProgress) {
+                //     if (loadingProgress == null) {
+                //       return child;
+                //     }
+                //     return Center(
+                //       child: CircularProgressIndicator(
+                //         color: DvColor.textPrimary,
+                //       ),
+                //     );
+                //   },
+                //   fit: BoxFit.cover,
+                // ),
               ),
-              // Image.network(
-              //   imageUrl,
-              //   loadingBuilder: (context, child, loadingProgress) {
-              //     if (loadingProgress == null) {
-              //       return child;
-              //     }
-              //     return Center(
-              //       child: CircularProgressIndicator(
-              //         color: DvColor.textPrimary,
-              //       ),
-              //     );
-              //   },
-              //   fit: BoxFit.cover,
-              // ),
             ),
           ),
           Padding(

@@ -45,7 +45,7 @@ dev_dependencies:
   #Mocking
   mocktail: ^1.0.3
   #UI testing
-  patrol: ^3.5.2
+  # patrol: ^3.5.2
 
 flutter:
   uses-material-design: true
@@ -64,9 +64,9 @@ flutter:
         - asset: packages/devest_ui/fonts/Poppins-Semibold.ttf
           weight: 600
 
-patrol:
-  app_name: My App
-  android:
-    package_name: es.devest.flutter_pokedex
-  ios:
-    bundle_id: es.devest.flutterPokedex
+# patrol:
+#   app_name: My App
+#   android:
+#     package_name: es.devest.flutter_pokedex
+#   ios:
+#     bundle_id: es.devest.flutterPokedex

@@ -13,6 +13,12 @@ class PokemonListPage extends ConsumerWidget {
 
     double width = MediaQuery.of(context).size.width;
 
+    // viewmodel.pokemonList.whenData((list) {
+    //   for (var pokemon in list) {
+    //     precacheImage(CachedNetworkImageProvider(pokemon.imageUrl), context);
+    //   }
+    // });
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.05),
       child: Column(

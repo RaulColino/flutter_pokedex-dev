@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/domain/entities/pokemon_entity.dart';
+import 'package:flutter_pokedex/presentation/widgets/cached_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PokemonDetailScreen extends ConsumerWidget {
+  const PokemonDetailScreen({super.key, required this.pokemon});
+
   final PokemonEntity pokemon;
-  const PokemonDetailScreen({super.key, required this.pokemon} );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //precacheImage(CachedNetworkImageProvider(pokemon.imageUrl), context);
     return Scaffold(
       appBar: AppBar(
         title: Text(pokemon.name),
@@ -16,7 +19,10 @@ class PokemonDetailScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(pokemon.imageUrl),
+            Hero(
+              tag: pokemon.imageUrl,
+              child: CachedImage(imageUrl: pokemon.imageUrl),
+            ),
             Text("Height: ${pokemon.height}"),
             Text("Weight: ${pokemon.weight}"),
             Text("Types: ${pokemon.types.join(", ")}"),
